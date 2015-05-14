@@ -1,1 +1,1003 @@
-Hello World
+<!DOCTYPE html>
+<html ng-app='App'>
+  <head>
+    <link rel="stylesheet" href="../3rdparty/angular/angular-csp.css">
+    <link rel="stylesheet" href="../3rdparty/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../3rdparty/intl-tel-input/build/css/intlTelInput.css">
+    <link rel="stylesheet" href="../3rdparty/jcrop/css/jquery.Jcrop.min.css">
+    <link rel="stylesheet"  href="../3rdparty/jquery.timeentry.package-2.0.1/jquery.timeentry.css">
+
+    <link rel="stylesheet" href="../dist/rockspoon-ui.min.css">
+
+    <style>
+      .rs-tab-content {
+        height: 100px !important;
+      }
+    </style>
+
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing&sensor=false"></script>
+
+    <script src="../3rdparty/moment/min/moment.min.js"></script>
+    <script src="../3rdparty/lodash/lodash.min.js"></script>
+    <script src="../3rdparty/jquery/dist/jquery.min.js"></script>
+    <script src="../3rdparty/jquery-ui/ui/minified/jquery-ui.min.js"></script>
+    <script src="../3rdparty/angular/angular.min.js"></script>
+    <script src="../3rdparty/angular-animate/angular-animate.min.js"></script>
+    <script src="../3rdparty/intl-tel-input/build/js/intlTelInput.min.js"></script>
+    <script src="../3rdparty/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script src="../3rdparty/jcrop/js/jquery.Jcrop.min.js"></script>
+    <script src="../3rdparty/angular-ui-slider/src/slider.js"></script>
+    <script src="../3rdparty/angular-ui-sortable/sortable.min.js"></script>
+    <script src="../3rdparty/jquery.timeentry.package-2.0.1/jquery.plugin.js"></script>
+    <script src="../3rdparty/jquery.timeentry.package-2.0.1/jquery.timeentry.js"></script>
+    <script src="../dist/rockspoon-ui.min.js"></script>
+    <script>
+      var app = angular.module("App", ["rockspoon-ui"]).controller('MainCtrl', ["$scope", function($scope) {
+        $scope.country = "";
+        $scope.state = "";
+        $scope.selected = 1;
+        $scope.menuStep = 1;
+        $scope.currentStep = 1;
+        $scope.nextStep = function() {
+          $scope.currentStep++;
+        };
+
+        $scope.$on("menu-clicked", function(event, args) {
+          console.log(args);
+          event.stopPropagation();
+        });
+
+        $scope.nextMenuStep = function() {
+          $scope.model.field21 = {
+            title: "Roadster Diner With Long Description",
+            description: "Come as you are!!!!! Come as you are!!!!! Come as you are!!!!! Come as you are!!!!! Come as you are!!!!! Come as you are!!!!! Come as you are!!!!! Come as you are!!!!! Come as you are!!!!! Come as you are!!!!!"
+          };
+          $scope.model.field22 = {
+            fullName: "John Doe"
+          };
+          $scope.menuStep++;
+        };
+        $scope.requestPin = function(cb) {
+          setTimeout(function(){
+            cb(false, true);
+          }, 3000);
+        };
+        $scope.validatePin = function(pin, cb) {
+          if (pin == "11111")
+            setTimeout(function(){
+              cb(false, true);
+            }, 3000);
+          else
+            setTimeout(function(){
+              cb(true, false);
+            }, 3000);
+        };
+        $scope.onValidated = function() {
+          console.log("Validation callback called");
+        };
+
+        $scope.model = {
+          field1: "",
+          field2: "",
+          field3: "",
+          field4: 3,
+          field5: {
+            address1: "",
+            address2: "",
+            city: "",
+            state: "",
+            zipCode: ""
+          },
+          field6: [{
+            type: "Landline",
+            phone: "+14111111111"
+          }],
+          field7: [{
+            url: "http://www.1.com",
+            type: "Website"
+          }, {
+            url: "http://www.facebook.com/test",
+            type: "Facebook"
+          }],
+          field8: {
+            name: "",
+            logo: "",
+            description: ""
+          },
+          field9: {
+            address1: "",
+            address2: "",
+            city: "",
+            state: "",
+            zipCode: ""
+          },
+          field10: [{
+            from: moment.utc("1970-01-01T09:00:00.000Z"),
+            to: moment.utc("1970-01-01T18:00:00.000Z")
+          }, {
+            from: moment.utc("1970-01-01T19:00:00.000Z"),
+            to: moment.utc("1970-01-01T09:00:00.000Z")
+          }],
+          field11: {
+            beneficiaryAccount: "",
+            beneficiaryBankName: "",
+            bankCityState: "",
+            bankCountry: "",
+            abaSwiftCode: ""
+          },
+          field12: moment(),
+          field13: {
+          },
+          field14: [],
+          field15: [],
+          field16: {},
+          field17: 5,
+          field18: "1",
+          field20: true,
+          field21:{
+            title: "Roadster Diner",
+            description: "Come as you are!!!!"
+          },
+          field22:{
+            fullName: "Peter Karl",
+            avatar: "https://trello-avatars.s3.amazonaws.com/08676c2780f9c381081042bc29263cee/170.png"
+          },
+          field26:[{
+            title: "One Spoon",
+            count: 3
+          }, {
+            title: "Two Spoons",
+            count: 0
+          },{
+            title: "Three Spoons",
+            count: 9
+          },
+          {
+            title: "Four Spoons",
+            count: 20
+          }],
+          field27: {
+            date: {},
+            start: moment(),
+            invoiceNumber: null,
+            bottles: null,
+            unitPrice: null,
+            totalPrice: null
+          },
+          field28: {
+            isSingle: false,
+            sizes: [{
+              name: "small",
+              price: "12.00"
+            }, {
+              name: "medium",
+              price: "15.10"
+            }]
+          },
+          field29: "Hello",
+          field30: {
+            defaultModifier: "test1",
+            hasDefault: true,
+            isOptional: true,
+            modifiers: [{
+              modifier: "test",
+              time: moment().utc(new Date())
+            }, {
+              modifier: "test1",
+              time: moment().utc(new Date())
+            },{
+              modifier: "test2",
+              time: moment().utc(new Date())
+            }],
+            title: "Cooking Temperature"
+          },
+          field31: moment().utc(new Date()),
+          field32: [],
+          field33: {
+            defaultModifier: "",
+            hasDefault     : false,
+            isOptional     : true,
+            ingredients    : [],
+            allMaxFree     : {},
+            customMaxFree  : "",
+            extras         : [{
+              extraNumber: 3,
+              extraPrices: [{
+                value: 3,
+                name: "small"
+              },{
+                value: 4,
+                name: "medium"
+              }]
+            }, {
+              extraNumber: 4,
+              extraPrices: [{
+                value: 5,
+                name: "small"
+              },{
+                value: 7,
+                name: "medium"
+              }]
+            }]
+          },
+          field34: {
+            price: "24.01",
+            totalItems: 4,
+            categoryItems: 6
+          },
+          field35: {
+            name: "",
+            business: "",
+            country: "",
+            businessType: "",
+            taxId: "",
+            address: {},
+            phones: [],
+            internet: []
+          },
+          field36: {
+            tempClosedTime: {
+              from: null,
+              to: null
+            }
+          },
+          field37: [
+            {
+              day : "Monday",
+              closed: false,
+              time: [{
+                from: moment.utc("1970-01-01T09:00:00.000Z"),
+                to  : moment.utc("1970-01-01T18:00:00.000Z")
+              }]
+            },
+            {
+              day : "Tuesday",
+              closed: false,
+              time: [{
+                from: moment.utc("1970-01-01T09:00:00.000Z"),
+                to  : moment.utc("1970-01-01T18:00:00.000Z")
+              }]
+            },
+            {
+              day: "Wednesday",
+              closed: false,
+              time: [{
+                from: moment.utc("1970-01-01T09:00:00.000Z"),
+                to  : moment.utc("1970-01-01T18:00:00.000Z")
+              }]
+            },
+            {
+              day: "Thursday",
+              closed: false,
+              time: [{
+                from: moment.utc("1970-01-01T09:00:00.000Z"),
+                to  : moment.utc("1970-01-01T18:00:00.000Z")
+              }]
+            },
+            {
+              day: "Friday",
+              closed: false,
+              time: [{
+                from: moment.utc("1970-01-01T09:00:00.000Z"),
+                to  : moment.utc("1970-01-01T18:00:00.000Z")
+              }]
+            },
+            {
+              day: "Saturday",
+              closed: false,
+              time: [{
+                from: moment.utc("1970-01-01T09:00:00.000Z"),
+                to  : moment.utc("1970-01-01T18:00:00.000Z")
+              }]
+            },
+            {
+              day: "Sunday",
+              closed: false,
+              time: [{
+                from: moment.utc("1970-01-01T09:00:00.000Z"),
+                to  : moment.utc("1970-01-01T18:00:00.000Z")
+              }]
+            }
+          ],
+          field38: {
+            address: {},
+            name: "",
+            sameBusiness: false,
+            sameOperating: false
+          },
+        };
+
+        $scope.aLaCarteMenu = {
+          name: "Pizza Menu",
+          description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmo...",
+          items: []
+        };
+
+        for (var i = 0; i < 1; ++i) {
+          $scope.aLaCarteMenu.items.push({
+            type: "section",
+            name: "Appertizers",
+            description: "Lorem ipsum dolor sit amet, consectectur adipiscing elit, sed do eiusmo thisshouldbebig enough, to show it will go in 2 lines",
+            level: 0
+          });
+
+          for (var j = 0; j < 1; ++j) {
+            $scope.aLaCarteMenu.items.push({
+              type: "item",
+              name: "This is an item",
+              img: "https://s3.amazonaws.com/rockspoon-images/511.jpeg",
+              description: "This is an item description",
+              level: 1
+            });
+
+            for (var k = 0; k < 1; ++k) {
+              $scope.aLaCarteMenu.items.push({
+                type: "section",
+                name: "One more Section",
+                description: "Lorem ipsum dolor sit amet, consectectur adipiscing elit, sed do eiusmo thisshouldbebig enough, to show it will go in 2 lines",
+                level: 1
+              });
+
+              for (var l = 0; l < 1; ++l) {
+                $scope.aLaCarteMenu.items.push({
+                  type: "item",
+                  name: "One more Item",
+                  img: "https://s3.amazonaws.com/rockspoon-images/509.jpeg",
+                  description: "Lorem ipsum dolor sit amet, consectectur adipiscing elit, sed do eiusmo thisshouldbebig enough, to show it will go in 2 lines",
+                  level: 2
+                });
+              }
+            }
+          }
+        }
+
+        $scope.comboBox1 = [{
+          value : "",
+          label : ""
+        }, {
+          value : 1,
+          label : "Value1"
+        }, {
+          value : 2,
+          label : "Value2"
+        }, {
+          value : 3,
+          label : "Value3"
+        }];
+
+        $scope.comboBox2 = [{
+          value : "",
+          label : ""
+        }, {
+          value : 1,
+          label : "Other Value1"
+        }, {
+          value : 2,
+          label : "Other Value2"
+        }, {
+          value : 3,
+          label : "Other Value3"
+        }];
+
+        $scope.mapOptions = {
+          deleteControlClassName  : "deleteControl",
+          deleteControlText : "Delete",
+          deleteControlTitle : "Delete Test",
+          mapCenter : {
+            latitude : 52.5071948,
+            longitude : 13.3902422
+          },
+          mapZoom : 17,
+          pinTitle : "Title",
+          polygonFillOpacity : 0.45,
+          polygonStrokeWeight : 3,
+          showPin : true
+        };
+
+        $scope.tableOptions = {
+          showSpinner: true,
+          scrollDistance: 0,
+          predicate: "id",
+          reverse: false
+        };
+
+        $scope.tableItems = [];
+        for (var i = 0; i < 50; ++i) {
+          $scope.tableItems.push({
+            id: $scope.tableItems.length,
+            adjustedBy: "Person " + $scope.tableItems.length,
+            reason: "Reason " + $scope.tableItems.length,
+            adjustment: "Fixed issue " + $scope.tableItems.length
+          });
+        }
+
+        $scope.nextPage = function(cb) {
+          setTimeout(function() {
+            if($scope.tableItems.length < 5000) {
+              for (var i = 0; i < 50; ++i) {
+                $scope.tableItems.push({
+                  id: $scope.tableItems.length,
+                  adjustedBy: "Person " + $scope.tableItems.length,
+                  reason: "Reason " + $scope.tableItems.length,
+                  adjustment: "Fixed issue with very very very very very long text " + $scope.tableItems.length
+                });
+              }
+              $scope.tableItems.sort(sorter($scope.tableOptions.predicate, $scope.tableOptions.reverse));
+            }
+            cb(true, false);
+          }, 2000);
+        };
+
+        var sorter = function(predicate, reverse) {
+          var key = function(x) {
+            return x[predicate]
+          };
+          reverse = reverse ? -1 : 1;
+          return function(a, b) {
+            return a = key(a), b = key(b), reverse * ((a > b) - (b > a));
+          };
+        };
+
+        $scope.sortBy = function(cb) {
+          setTimeout(function() {
+            $scope.tableItems.sort(sorter($scope.tableOptions.predicate, $scope.tableOptions.reverse));
+            cb();
+          }, 100);
+        };
+
+        $scope.servicesAccess = {
+          id: "serviceRoot",
+          label: "to all",
+          items: [
+            {
+              id: "service1",
+              label: "Property Info",
+              isRequired: true,
+              checked: false,
+              items: [
+                {
+                  id: "service2",
+                  label: "General Information",
+                  checked: false
+                },
+                {
+                  id: "service3",
+                  label: "Opening Hours",
+                  checked: false
+                },
+                {
+                  id: "service4",
+                  label: "Accounts Receivable",
+                  checked: false
+                },
+                {
+                  id: "service5",
+                  label: "Selling Information",
+                  checked: false
+                },
+                {
+                  id: "service6",
+                  label: "Official Photos",
+                  checked: false
+                }
+              ]
+            },
+            {
+              id: "service7",
+              label: "Property Layout",
+              canCheck: true,
+              isRequired: true,
+              checked: false,
+              items: [
+                {
+                  id: "service8",
+                  label: "F&B Production Areas",
+                  canCheck: false,
+                  checked: false
+                },
+                {
+                  id: "service9",
+                  label: "Floor Plan",
+                  checked: false
+                }
+              ]
+            }
+          ]
+        };
+        $scope.propertiesAccess = {
+          future: true,
+          items: [
+            {
+              id: "property1",
+              label: "La Tour D'Argent",
+              isRequired: true,
+              checked: false,
+              items: [
+                {
+                  id: "property2",
+                  label: "100 Hamitlon Ave, Menlo Park CA",
+                  checked: false
+                },
+                {
+                  id: "property3",
+                  label: "25 University Ave, Palo Alto CA",
+                  checked: false
+                },
+                {
+                  id: "property4",
+                  label: "300 Hamitlon Ave, Palo Alto CA",
+                  checked: false
+                },
+                {
+                  id: "property5",
+                  label: "100 Ventura Ave, Miami FL",
+                  checked: false
+                },
+                {
+                  id: "property6",
+                  label: "700 5th Ave, New York NY",
+                  checked: false
+                }
+              ]
+            },
+            {
+              id: "property7",
+              label: "La Tour D'Argent Cafe",
+              canCheck: true,
+              isRequired: true,
+              checked: false,
+              items: [
+                {
+                  id: "property8",
+                  label: "1254 University Ave, Palo Alto CA",
+                  canCheck: false,
+                  checked: false
+                }
+              ]
+            }
+          ]
+        };
+
+        $scope.userAccess = {
+          id: "root",
+          label: "to all",
+          items: [
+            {
+              id: "1",
+              label: "Property Info",
+              isRequired: true,
+              checked: false,
+              items: [
+                {
+                  id: "2",
+                  label: "General Information",
+                  isRequired: true,
+                  checked: false,
+                  mode: "view"
+                },
+                {
+                  id: "3",
+                  label: "Opening Hours",
+                  isRequired: true,
+                  checked: false,
+                  mode: "edit"
+                },
+                {
+                  id: "4",
+                  label: "Accounts Receivable",
+                  isRequired: true,
+                  checked: false,
+                  mode: "view"
+                },
+                {
+                  id: "5",
+                  label: "Selling Information",
+                  isRequired: true,
+                  checked: false,
+                  mode: "view"
+                },
+                {
+                  id: "6",
+                  label: "Official Photos",
+                  isRequired: true,
+                  checked: false,
+                  mode: "view"
+                }
+              ]
+            },
+            {
+              id: "7",
+              label: "Property Layout",
+              canCheck: true,
+              isRequired: true,
+              checked: false,
+              items: [
+                {
+                  id: "8",
+                  label: "F&B Production Areas",
+                  canCheck: false,
+                  isRequired: true,
+                  checked: false,
+                  mode: "edit"
+                },
+                {
+                  id: "9",
+                  label: "Floor Plan",
+                  isRequired: true,
+                  checked: false,
+                  mode: "view"
+                }
+              ]
+            }
+          ]
+        };
+
+        $scope.menu = [{
+          id: "property_info",
+          title: "Property Information",
+          hasSubmenu: true,
+          level: 0,
+          isOpen: true
+        }, {
+          id: "general_information",
+          title: "General Information",
+          hasSubmenu: false,
+          level: 1,
+          parentId : "property_info"
+        }, {
+          id: "property_description",
+          title: "Property Description",
+          hasSubmenu: false,
+          level: 1,
+          step: 1,
+          parentId : "property_info"
+        }, {
+          id: "opening_hours",
+          title: "Opening Hours",
+          hasSubmenu: false,
+          level: 1,
+          step: 2,
+          parentId : "property_info"
+        }, {
+          id: "accounts_receivable",
+          title: "Accounts Receivable",
+          hasSubmenu: false,
+          level: 1,
+          step: 3,
+          parentId : "property_info"
+        }, {
+          id: "selling_information",
+          title: "Selling Information",
+          hasSubmenu: false,
+          level: 1,
+          step: 4,
+          parentId : "property_info"
+        }, {
+          id: "official_photos",
+          title: "Official Photos",
+          hasSubmenu: false,
+          level: 1,
+          step: 5,
+          parentId : "property_info"
+        }, {
+          id: "property_layout",
+          title: "Property Layout",
+          hasSubmenu: true,
+          level: 0,
+          isOpen: true,
+          parentId : null
+        }, {
+          id: "fb_production_areas",
+          title: "F&B Production Areas",
+          hasSubmenu: false,
+          level: 1,
+          step: 6,
+          parentId : "property_layout"
+        }, {
+          id: "floor_plan",
+          title: "Floor Plan",
+          hasSubmenu: false,
+          level: 1,
+          step: 7,
+          parentId : "property_layout"
+        }, {
+          id: "printers",
+          title: "Printers",
+          hasSubmenu: false,
+          level: 1,
+          step: 8,
+          parentId : "property_layout"
+        }, {
+          id: "pos",
+          title: "POS",
+          hasSubmenu: false,
+          level: 1,
+          parentId : "property_layout"
+        }, {
+          id: "scanner",
+          title: "Scanner",
+          hasSubmenu: false,
+          level: 1,
+          parentId : "property_layout"
+        }, {
+          id: "network",
+          title: "Network",
+          hasSubmenu: false,
+          level: 1,
+          parentId : "property_layout"
+        }, {
+          id: "menu",
+          title: "Menu",
+          hasSubmenu: true,
+          level: 0,
+          isOpen: true
+        }, {
+          id: "draft",
+          title: "Draft",
+          hasSubmenu: true,
+          level: 1,
+          isOpen: true,
+          icon: "icon-icons_Draft",
+          parentId : "menu"
+        }, {
+          id: "published",
+          title: "Published",
+          hasSubmenu: true,
+          level: 1,
+          isOpen: true,
+          icon: "icon-icons_Publish",
+          parentId : "menu"
+        }, {
+          id: "archived",
+          title: "Archived",
+          hasSubmenu: true,
+          level: 1,
+          isOpen: true,
+          icon: "icon-icons_Archived",
+          parentId : "menu"
+        }, {
+          id: "databes_items",
+          title: "Database of Menu Items",
+          hasSubmenu: true,
+          level: 0,
+          isOpen: true
+        }, {
+          id: "all",
+          title: "All",
+          hasSubmenu: false,
+          level: 1,
+          parentId : "databes_items"
+        }];
+
+        $scope.myTime = new Date();
+        $scope.srcTags = [];
+        $scope.completionList = [];
+        $scope.itemTags = [{name: 'foo'}, {name: 'bar'}];
+
+        for (var i = 0; i < 50; ++i) {
+          $scope.srcTags.push({ name: "Tag " + i });
+          $scope.completionList.push({ name: "Tag " + i });
+        }
+
+        $scope.itemCompletion = [];
+        for (var i = 0; i < 50; ++i)
+          $scope.itemCompletion.push({ itemId: i, name: "Item " + i });
+
+        $scope.photos =[];
+        for (var i = 0; i < 10; ++i)
+          $scope.photos.push({ title: "Photo " + i, description: "Description of photo #" + i, url: "http://lorempixel.com/140/140/food/" + i});
+      
+        $scope.paymentType = {
+          type: "weekly"
+        };
+        
+        $scope.paymentDescription = {
+          weekly: {
+            title: "Payment on a daily basis.",
+            options: ["Weekly payment description", "Weekly payment details"]
+          },
+          monthly: {
+            title: "Once per month, on the second Wednesday of the month.",
+            options: [
+              "Payment on Wednesday is related to the sales of the previous month.",
+              "When Wednesday is a bank holiday, payment will be sent the next business day."
+            ]
+          }
+        };
+      }]);
+
+      app.factory("FetchCountry", function() {
+        return {
+          fetchCountries: function(cb) {
+            cb(null, ["Brazil", "Germany"]);
+          },
+          fetchStates: function(country, cb) {
+            if (country === "Brazil")
+              cb(null, ["Parana", "Sao Paulo"]);
+            else if (country === "Germany")
+              cb(null, ["Berlin", "Brandenburg"]);
+            else
+              cb(null, []);
+          }
+        };
+      });
+    </script>
+  </head>
+
+  <body ng-controller="MainCtrl">
+    <rs-navbar>
+      <rs-quick-menu>
+        <rs-quick-menu-link icon-class="icon-icons_Employes" selected="true">Employees</rs-quick-menu-link>
+        <rs-quick-menu-link icon-class="icon-icons_EditProperties">Edit Properties</rs-quick-menu-link>
+        <rs-quick-menu-link icon-class="icon-icons_Suppliers">Suppliers</rs-quick-menu-link>
+        <rs-quick-menu-link icon-class="icon-icons_Dashboard">Dashboard</rs-quick-menu-link>
+        <rs-quick-menu-link icon-class="icon-icons_SwitchProperty">Switch Property</rs-quick-menu-link>
+      </rs-quick-menu>
+      <rs-navbar-logo logo-class="icon-icons_Logo"></rs-navbar-logo>
+      <rs-navbar-title description="{{model.field21.description}}">{{model.field21.title}}</rs-navbar-title>
+      <rs-navbar-dropdown ng-model="model.field22">
+        <rs-navbar-dropdown-link icon-class="icon-icons_Avatar" thumb="model.field22.avatar">Profile</rs-navbar-dropdown-link>
+        <rs-navbar-dropdown-link icon-class="icon-icons_Lock">Password</rs-navbar-dropdown-link>
+        <rs-navbar-dropdown-link icon-class="icon-icons_Logout">Logout</rs-navbar-dropdown-link>
+      </rs-navbar-dropdown>
+    </rs-navbar>
+    <div class="rs-template-content">
+      <rs-menu ng-model="menu" current-step='menuStep' min-width="1440" controller-width="288">
+        <rs-a-la-carte-menu ng-model="aLaCarteMenu">
+          <rs-menu-bar title="Menu Bar">
+            <rs-menu-bar-buttons title="Actions" icon-class="icon-icons_Actions" min-width="1440">
+              <rs-save-draft-button></rs-save-draft-button>
+              <rs-continue-button></rs-continue-button>
+              <rs-publish-button></rs-publish-button>
+            </rs-menu-bar-buttons>
+            <rs-menu-bar-dropdown title="New Property" icon-class="icon-icons_NewProperty">
+              <rs-menu-bar-dropdown-link icon-class="icon-icons_Lock">Password</rs-menu-bar-dropdown-link>
+              <rs-menu-bar-dropdown-link icon-class="icon-icons_Logout">Logout</rs-menu-bar-dropdown-link>
+            </rs-menu-bar-dropdown>
+          </rs-menu-bar>
+          <button ng-click="nextMenuStep()">Change 10</button>
+          <rs-section title="Beneficiary Information">
+            <rs-beneficiary-info ng-model="model.field38"></rs-beneficiary-info>
+          </rs-section>
+          <rs-section title="Business Information">
+            <rs-business-entity ng-model="model.field35"></rs-business-entity>
+          </rs-section>
+          <rs-section title="Photos" separator="true" style="width: 600px;">
+            <rs-photos gallery="photos"></rs-photos>
+          </rs-section>
+          <rs-section title="Country">
+            <rs-country ng-model="country"></rs-country>
+            <rs-state country="country" ng-model="state"></rs-state>
+          </rs-section>
+          <rs-section title="Price">
+            <rs-size-price show-info="true" ng-model="model.field28"></rs-size-price>
+          </rs-section>
+          <rs-section title="Simple Time Input" separator="true">
+            <rs-time class="rs-time" ng-model="model.field31" time-options="{ show24Hours : false, minuteStep: 1 }"></rs-time>
+          </rs-section>
+          <rs-section title="Tags input" separator="true">
+            <rs-tags ng-model="itemTags" tags-list="srcTags"></rs-tags>
+          </rs-section>
+          <rs-section title="Auto Complete" separator="true">
+            <rs-auto-complete ng-model="model.field29" src-list="srcTags" icon-class-name="icon-icons_Database" placeholder="Please Start typing"></rs-auto-complete>
+          </rs-section>
+          <rs-section title="Substitution Modifiers">
+            <rs-substitution ng-model="model.field32" item-list='itemCompletion' completion-list="completionList"></rs-substitution>
+          </rs-section>
+          <rs-section title="Ingredient Modifiers" style="width: 900px">
+            <rs-ingredient ng-model="model.field33" sizes-list="model.field28.sizes" item-list='itemCompletion'></rs-ingredient>
+          </rs-section>
+          <rs-section title="Quantity Price">
+            <rs-price ng-model="model.field34"></rs-price>
+          </rs-section>
+          <rs-section title="Cooking Modifiers">
+            <rs-cooking-modifiers ng-model="model.field30"></rs-cooking-modifiers>
+          </rs-section>
+          <rs-section title="Grant user access to" mandatory="true">
+            <rs-access-control ng-model="servicesAccess"></rs-access-control>
+          </rs-section>
+          <rs-section title="Select what properties user will access to" mandatory="true" separator="true">
+            <rs-check-box label='Give access to current and futrue properties' ng-model='propertiesAccess.future'></rs-check-box>
+            <rs-access-control ng-model="propertiesAccess"></rs-access-control>
+          </rs-section>
+          <rs-section title="Grant user access to" mandatory="true" separator="true">
+            <rs-access-control ng-model="userAccess"></rs-access-control>
+          </rs-section>
+          <rs-section title="Mandatory Section" mandatory="true" separator="true">
+            <rs-text-edit label="TextEdit1"
+                          label-same-line="false"
+                          placeholder="Not Same Line"
+                          ng-model="model.field1"></rs-text-edit>
+            <rs-text-edit label="TextEdit2"
+                          label-same-line="true"
+                          placeholder="Same Line"
+                          ng-model="model.field2"></rs-text-edit>
+            <rs-combo-box label="ComboBox1"
+                          options="comboBox1"
+                          ng-model="model.field3"></rs-combo-box>
+            <rs-combo-box label="ComboBox2"
+                          label-same-line="false"
+                          options="comboBox2"
+                          ng-model="model.field4"></rs-combo-box>
+          </rs-section>
+          <rs-section title="Mandatory Section With Separator" mandatory="true" separator="true">
+            <rs-address ng-model="model.field5"></rs-address>
+            <rs-multi-phone-text-edit ng-model="model.field6" label="Multiple Phone Number"></rs-multi-phone-text-edit>
+            <rs-multi-social-text-edit ng-model="model.field7" label="Multiple Internet data"></rs-multi-social-text-edit>
+          </rs-section>
+          <rs-section title="Section With Subsection">
+            <rs-brand-info ng-model="model.field8"></rs-brand-info>
+            <rs-parking-address label="Parking Info" type-label="Parking Type" ng-model="model.field9"></rs-parking-address>
+            <rs-section title="Subsection">
+              <rs-multi-time ng-model="model.field10" ></rs-multi-time>
+            </rs-section>
+            <rs-section title="Subsection1">
+              <rs-bank-info ng-model="model.field11"></rs-bank-info>
+            </rs-section>
+          </rs-section>
+          <rs-section title="Temporary Scheduled Closure (e.g. a Vacation or Renovation)">
+            <rs-temp-closure ng-model="model.field36"></rs-temp-closure>
+          </rs-section>
+          <rs-section title="Opening Hours">
+            <rs-opening-hours ng-model="model.field37"></rs-opening-hours>
+          </rs-section>
+          <rs-section title="Calendars" separator="true">
+            <rs-date ng-model="model.field12"></rs-date>
+          </rs-section>
+          <rs-section title="Calendars 1" separator="true">
+            <rs-date-range class="dropup" temporary-closure='true' label-from="From" label-to="To" ng-model="model.field13" label-same-line="true"></rs-date-range>
+          </rs-section>
+          <rs-section title="Map" separator="true">
+            <rs-map options="mapOptions" ng-model="model.field14"></rs-map>
+          </rs-section>
+          <rs-section title="Group" separator="true">
+            <rs-multi-utensils label="Utensils" ng-model="model.field15"></rs-multi-utensils>
+          </rs-section>
+          <rs-section title="Estimated time">
+            <rs-estimated-time type="Takeout" ng-model="model.field16"></rs-estimated-time>
+            <rs-spin-box style="width:20px" ng-model="model.field17" label="Spin Box" label-same-line="true"></rs-spin-box>
+            <rs-radio-button id="radio1" value="1" label="Radio1" ng-model="model.field18"></rs-radio-button>
+            <rs-radio-button id="radio2" value="2" label="Radio2" ng-model="model.field18"></rs-radio-button>
+            <rs-on-off style="width:150px" on="Yes" off="No" ng-model="model.field20"></rs-on-off>
+          </rs-section>
+          <rs-section title="Choose your Password">
+            <rs-choose-password ng-model="model.field21"></rs-choose-password>
+          </rs-section>
+          <rs-section title="Digit Verify">
+            <rs-pin-input length="5"  request-pin="requestPin(cb)" validate-pin="validatePin(pin, cb)" on-validated="onValidated()" label="Enter a 5 digit pin, sent by text message"></rs-pin-input>
+          </rs-section>
+          <rs-section title="Table">
+            <rs-table style="height:150px;" options="tableOptions" ng-model="tableItems" next-page="nextPage(cb)" sort-by="sortBy(cb)">
+              <rs-table-column model-column="id" header="ID" width="50" sortable="true"></rs-table-column>
+              <rs-table-column model-column="adjustedBy" header="Adjusted By" width="130" sortable="true"></rs-table-column>
+              <rs-table-column model-column="reason" header="Reason" width="150"></rs-table-column>
+              <rs-table-column model-column="adjustment" header="Adjustment"></rs-table-column>
+            </rs-table>
+          </rs-section>
+          <rs-section title="Tab Example">
+            <button ng-click="nextStep()">Next Step</button><br />
+            <rs-tabs current-step="currentStep"  selected="selected">
+              <rs-tab title="General Information" step>
+                <rs-label>Tab 1</rs-label>
+              </rs-tab>
+              <rs-tab title="Settings & Prices" step>
+                <rs-label>Tab 2</rs-label>
+              </rs-tab>
+              <rs-tab title="Photos" step>
+                <rs-choose-Password ng-model="model.field21"></rs-choose-password>
+              </rs-tab>
+            </rs-tabs>
+          </rs-section>
+          <rs-section title="Rating Example">
+            <rs-bar-chart title="Cumulative Reviews" ng-model="model.field26"></rs-bar-chart>
+          </rs-section>
+          <rs-section title="Invoice Info">
+            <rs-invoice-info ng-model="model.field27"></rs-invoice-info>
+          </rs-section>
+          <rs-payment-method ng-model="paymentType.type" options="paymentDescription"></rs-payment-method>
+          <pre>{{model | json}}</pre>
+        </rs-a-la-carte-menu>
+      </rs-menu>
+    </div>
+  </body>
+</html>
