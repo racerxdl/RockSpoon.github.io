@@ -1585,9 +1585,11 @@ textarea:focus {
   padding-left: 10px;
   padding-right: 10px;
   width: 600px;
+  font-size: 12px;
 }
 .rs-forgot-password .rs-tabs .rs-content {
   min-height: unset !important;
+  overflow-y: auto;
 }
 .rs-forgot-password .rs-tabs .rs-content .rs-match-row {
   display: -webkit-box;
