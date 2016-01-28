@@ -7,8 +7,8 @@ angular.module('ps.inputTime', [])
         format: 'hh : mm a'
     })
 .directive("psInputTime", ['$filter', 'psInputTimeConfig', '$parse', function($filter, psInputTimeConfig, $parse) {
-      var temp12hr = '((0?[0-9])|(1[0-2]))[\\s][:][\\s]([0-5][0-9])[\\s][apAP][mM]',
-        temp24hr = '([01]?[0-9]|2[0-3])[:;][0-5][0-9]',
+      var temp12hr = '((0[0-9])|(1[0-2]))[\\s][:][\\s]([0-5][0-9])[\\s][apAP][mM]',
+        temp24hr = '([01][0-9]|2[0-3])[\\s][:;][\\s][0-5][0-9]',
         temp24noColon = '(2[0-3]|[01]?[0-9])([0-5][0-9])';
     var customFloor = function(value, roundTo) {
         return Math.floor(value / psInputConfig.minuteStep) * psInputConfig.minuteStep;
@@ -19,13 +19,15 @@ angular.module('ps.inputTime', [])
     return {
         restrict: "A",
         require: '?^ngModel',
-        scope: {},
+        scope: {
+            timeOptions: "="
+        },
         link: function(scope, element, attrs, ngModel) {
             if (!ngModel) return; // do nothing if no ng-model
 
-            var minuteStep = getValue(attrs.minuteStep, psInputTimeConfig.minuteStep),
-                fixedDay = getValue(attrs.fixedDay, psInputTimeConfig.fixedDay),
-                timeFormat = attrs.format || psInputTimeConfig.format,
+            var minuteStep = scope.timeOptions.minuteStep || psInputTimeConfig.minuteStep,
+                fixedDay = scope.timeOptions.fixedDay ||  psInputTimeConfig.fixedDay,
+                timeFormat = scope.timeOptions.show24Hours ? "HH : mm" : "hh : mm a",
                 maxDate = null,
                 minDate = null;
 
@@ -115,17 +117,33 @@ angular.module('ps.inputTime', [])
 
 
                         break;
+                    case 65:
+                        e.preventDefault();
+                        break;
+                    case 8:
+                        e.preventDefault();
+                        break;
+
                     default:
-                        // e.preventDefault();
+                        if (getSelectionPoint() == 'hour' && e.keyCode > 31 && (e.keyCode  < 48 || e.keyCode  > 57)) {
+                            e.preventDefault();
+                        }
+                        else if (getSelectionPoint() == 'minute' && e.keyCode > 31 && (e.keyCode  < 48 || e.keyCode  > 57)) {
+                            e.preventDefault();
+                        }
+                        else if (getSelectionPoint() == 'meridian') {
+                            e.preventDefault();
+                        }
                         break;
                 }
                 if(reservedKey){
                     e.preventDefault();
                 }
             }).on('keyup blur', function(){
-                if(checkTimeFormat(element.val()) != 'invalid' && !reservedKey){
+                if (checkTimeFormat(element.val()) != 'invalid' && !reservedKey){
                     scope.$apply(function (){
                         ngModel.$setViewValue(createDateFromTime(element.val(), ngModel.$modelValue));
+                        tabForward();
                     });
                 }
 
@@ -136,7 +154,7 @@ angular.module('ps.inputTime', [])
             });
 
             function verifyFormat(){
-                if(checkTimeFormat( element.val() ) == '12hr') return true;
+                if(checkTimeFormat( element.val() ) == '12hr' || checkTimeFormat( element.val() ) == '24hr') return true;
                 else if (element.val() === ''){
                     element.val(formatter(getDefaultDate()));
                     ngModel.$setViewValue(getDefaultDate());
@@ -264,8 +282,8 @@ angular.module('ps.inputTime', [])
 
 
                 } else if (ct == '24hr'){
-                    hours = time.split(/[;:]/)[0];
-                    minutes = time.split(/[;:]/)[1];
+                    hours = Number(time.match(/^(\d+)/)[1]);
+                    minutes = Number(time.match(/:[\s](\d+)/)[1]);
                 } else if (ct == '24nc') {
                     hours = time.length == 4 ? time.substr(0,2) : time.substr(0,1);
                     minutes = time.substr(-2);

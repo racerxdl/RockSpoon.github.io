@@ -5,5 +5,5 @@
 	$.timeEntry.regionalOptions['sv'] = {show24Hours: true, separator: ':',
 		ampmPrefix: '', ampmNames: ['AM', 'PM'],
 		spinnerTexts: ['Nu', 'Förra fältet', 'Nästa fält', 'öka', 'minska']};
-    $.timeEntry.setDefaults($.timeEntry.regionalOptions['sv']); 
+    $.timeEntry.setDefaults($.timeEntry.regionalOptions['sv']);
 })(jQuery);

@@ -10,7 +10,7 @@
 // dependencies.
 angular.module('sly', ['slyEvaluate', 'slyRepeat']);
 /**
- * @fileoverview 
+ * @fileoverview
  * Defines core functions used throughout the Scalyr javascript
  * code base.  This file is included on every page.
  *
@@ -70,7 +70,7 @@ function isNull(value) {
  * @returns {Boolean} True if value is a Number
  */
 function isNumber(value) {
-  return typeof value == 'number'; 
+  return typeof value == 'number';
 }
 
 /**
@@ -173,7 +173,7 @@ function upperCaseFirstLetter(input) {
  * @param {Object|Array|value} obj1 The first object
  * @param {Object|Array|value} obj2 The second object
  * @returns {Boolean} True if the two objects are equal using a deep
- *   comparison. 
+ *   comparison.
  */
 function areEqual(obj1, obj2) {
   return angular.equals(obj1, obj2);
@@ -222,7 +222,7 @@ function endsWith(input, postfix) {
 /**
  * Returns a deep copy of source, where source can be an Object or an Array.  If a destination is
  * provided, all of its elements (for Array) or properties (for Objects) are deleted and then all
- * elements/properties from the source are copied to it.   If source is not an Object or Array, 
+ * elements/properties from the source are copied to it.   If source is not an Object or Array,
  * source is returned.
  *
  * See angular.copy for more details.
@@ -314,9 +314,9 @@ function defineScalyrJsLibrary(libraryName, libraryExporter) {
     for (var i = 0; i < libraryExporter.length - 1; ++i)
       moduleDependencies.push(libraryExporter[i]);
   }
-  
+
   return angular.module(libraryName, moduleDependencies)
-    .factory(libraryName, libraryExporter);              
+    .factory(libraryName, libraryExporter);
 }
 
 /**
@@ -355,7 +355,7 @@ function defineScalyrAngularModule(moduleName, dependencies) {
  *      the expression has changed values.  If new children are added, they
  *      are always evaluated at least once.  It currently assumes the
  *      expression evaluates to an object and detects changes only by
- *      a change in object reference.  
+ *      a change in object reference.
  *
  *  slyAlwaysEvaluate: Can only be used in conjunction with the
  *      slyEvaluateOnlyWhen directive.  This directive will ensure that
@@ -388,7 +388,7 @@ defineScalyrAngularModule('slyEvaluate', ['gatedScope'])
     // from the parent scope.  Unclear if this is that important for perf.
     scope: true,
     restrict: 'A',
-    compile: function compile(tElement, tAttrs) {       
+    compile: function compile(tElement, tAttrs) {
       return {
         // We need a separate pre-link function because we want to modify the scope before any of the
         // children are passed it.
@@ -418,7 +418,7 @@ defineScalyrAngularModule('slyEvaluate', ['gatedScope'])
           }, function shouldGateWatcher(watchExpression) {
             // Should return true if the given watcher that's about to be registered should
             // be gated.
-            return isNull(alwaysEvaluateString) || 
+            return isNull(alwaysEvaluateString) ||
                    !(isStringNonempty(watchExpression) && (watchExpression.indexOf(alwaysEvaluateString) >= 0));
           }, true /* Evaluate any newly added watchers when they are added */);
         },
@@ -494,7 +494,7 @@ defineScalyrAngularModule('slyEvaluate', ['gatedScope'])
     // We create a new scope just because it helps segment the gated watchers
     // from the parent scope.  Unclear if this is that important for perf.
     scope: true,
-    compile: function compile(tElement, tAttrs) {       
+    compile: function compile(tElement, tAttrs) {
       return {
         // We need a separate pre-link function because we want to modify the scope before any of the
         // children are passed it.
@@ -536,7 +536,7 @@ defineScalyrAngularModule('slyEvaluate', ['gatedScope'])
  */
 defineScalyrAngularModule('slyRepeat', ['gatedScope'])
 .directive('slyRepeat', ['$animate', '$parse', function ($animate, $parse) {
-  
+
   /**
    * Sets the scope contained in elementScope to gate all its
    * watchers based on the isActiveForRepeat proprety.
@@ -578,7 +578,7 @@ defineScalyrAngularModule('slyRepeat', ['gatedScope'])
           throw Error("'item' in 'item in collection' should be identifier but got '" +
               lhs + "'.");
         }
-        
+
         // previousElements will store references to the already existing (DOM) elements
         // that were last used for the last rendering of this repeat and were visible.
         // We will re-use these elements when executing the next rendering of the repeat when
@@ -603,10 +603,10 @@ defineScalyrAngularModule('slyRepeat', ['gatedScope'])
           if ((previousElements.length < collection.length) && (previousElementBuffer.length > 0)) {
             var limit = previousElements.length + previousElementBuffer.length;
             if (limit > collection.length)
-              limit = collection.length;       
+              limit = collection.length;
             previousElements = previousElements.concat(previousElementBuffer.splice(0, limit - previousElements.length));
           }
-          
+
           var currentElements = null;
           var currentElementBuffer = [];
 
@@ -619,7 +619,7 @@ defineScalyrAngularModule('slyRepeat', ['gatedScope'])
                   scope: $scope.$new(),
                   isActiveForRepeat: true,
               };
-              
+
               gateWatchersForScope(newElement);
               newElement.scope.$index = i;
               newElement.scope.$first = (i == 0);
@@ -638,7 +638,7 @@ defineScalyrAngularModule('slyRepeat', ['gatedScope'])
             currentElements = previousElements;
             currentElementBuffer = previousElementBuffer;
           }
-          
+
           // We have to fix up the last and middle values in the scope for each element in
           // currentElements, since their roles may have changed with the new length.
           // We always have to fix the last element.
@@ -660,12 +660,12 @@ defineScalyrAngularModule('slyRepeat', ['gatedScope'])
               if (!currentElements[i].isActiveForRepeat) {
                 // If it is not marked as active, make it active.  This is also indicates that
                 // the element is currently hidden, so we have to unhide it.
-                currentElements[i].isActiveForRepeat = true; 
+                currentElements[i].isActiveForRepeat = true;
                 currentElements[i].element.css('display', '');
               }
             }
           }
-          
+
           // Hide all elements that have recently become inactive.
           for (var i = 0; i < currentElementBuffer.length; ++i) {
             if (currentElementBuffer[i].isActiveForRepeat)
@@ -691,7 +691,7 @@ defineScalyrAngularModule('slyRepeat', ['gatedScope'])
               newElements[i].element = clone;
             });
           }
-            
+
           previousElements = currentElements;
           previousElementBuffer = currentElementBuffer;
         });
@@ -925,7 +925,7 @@ defineScalyrAngularModule('gatedScope', [])
       }
 
       dirty = scopePrototype.$digest.call(this) || dirty;
-      
+
       var cleanUpQueue = this.$$cleanUpQueue;
 
       while (cleanUpQueue.length)
